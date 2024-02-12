@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-welcome',
@@ -12,7 +12,7 @@ import {Observable} from "rxjs";
 export class WelcomeComponent implements OnInit{
      welcome: string = "";
 
-     constructor(private authService: AuthService) {}
+     constructor(private authService: AuthService, private route: Router) {}
 
      ngOnInit() {
        this.authService.welcome().subscribe(
@@ -20,6 +20,11 @@ export class WelcomeComponent implements OnInit{
            this.welcome = result;
          }
        );
+     }
+
+     logout(){
+       this.authService.removeToken();
+       this.route.navigate(["/authenticate"]);
      }
 
 }
