@@ -1,0 +1,24 @@
+<div class="authForm">
+  <h1>SIGN IN</h1>
+  <form (ngSubmit)="onSubmit()" [formGroup]="authenticateFrom">
+    <div class="inputDiv">
+      <label>username</label>
+      <input type="text" formControlName="username" required>
+      <div *ngIf="authenticateFrom?.get('username')?.hasError('required') && submitted">
+        <p class="error">Username is required !</p>
+      </div>
+    </div>
+    <div class="inputDiv">
+      <label>password</label>
+      <input type="password" formControlName="password" required>
+      <div *ngIf="authenticateFrom?.get('password')?.hasError('required') && submitted">
+        <p class="error">Password is required !</p>
+      </div>
+      <div *ngIf="authenticateFrom?.get('password')?.hasError('minlength') && submitted">
+        <p class="error">Password should be at least 8 characters !</p>
+      </div>
+    </div>
+    <button type="submit">SUBMIT</button>
+    <h2>Don't have an account ? <a routerLink="/register">SIGN UP</a></h2>
+  </form>
+</div>
