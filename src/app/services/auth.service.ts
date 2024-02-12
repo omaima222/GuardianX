@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, tap} from "rxjs";
+import {catchError, map, Observable, tap, throwError} from "rxjs";
 import {RegisterDto} from "../dtos/RegisterDto";
 import {AuthenticateDto} from "../dtos/AthenticateDto";
 import {log} from "util";
@@ -16,33 +16,40 @@ export class AuthService {
 
   register(user:RegisterDto): Observable<string>{
     this.removeToken()
-    return this.httpClient.post<string>(this.url + "auth/register", user)
+    return this.httpClient.post<{ message : string }>(this.url + "auth/register", user)
       .pipe(
-         tap(token => this.setToken(token))
+         map(response => {
+           this.setToken(response.message)
+           return response.message
+         }),
       );
   }
 
   authenticate(user: AuthenticateDto): Observable<string> {
     this.removeToken();
-    return this.httpClient.post<string>(this.url + 'auth/authenticate', user)
+    return this.httpClient.post<{ message : string }>(this.url + 'auth/authenticate', user)
       .pipe(
-        tap(token => {
-          this.setToken(JSON.stringify(token))
-        })
+        map(response => {
+          this.setToken(response.message)
+          return response.message
+        }),
       );
   }
 
   welcome(): Observable<string>{
-    console.log("servhello")
-      return this.httpClient.get<string>(this.url + "welcome")
+    return this.httpClient.get<{ message: string }>(this.url+"welcome")
       .pipe(
-         tap(result => console.log(result))
+        map(response => response.message),
+        catchError(error => {
+          console.error('Error fetching welcome message:', error);
+          return throwError(error);
+        })
       );
   }
 
 
   setToken(token: string): void {
-    localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem('token', token);
   }
 
   removeToken(): void {

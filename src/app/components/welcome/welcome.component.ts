@@ -11,21 +11,13 @@ import {Observable} from "rxjs";
 })
 export class WelcomeComponent implements OnInit{
      welcome: string = "";
-     error: string = "";
 
-     constructor(private authService: AuthService) {
-       console.log("hellow?")
-     }
+     constructor(private authService: AuthService) {}
 
      ngOnInit() {
-       console.log("hellow???????????????")
        this.authService.welcome().subscribe(
-         (result: string) => {
+         (result) => {
            this.welcome = result;
-           console.log(result)
-         },
-         (error) => {
-           this.error=error;
          }
        );
      }
