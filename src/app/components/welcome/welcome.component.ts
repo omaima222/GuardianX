@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-welcome',
@@ -12,14 +12,10 @@ import {Router} from "@angular/router";
 export class WelcomeComponent implements OnInit{
      welcome: string = "";
 
-     constructor(private authService: AuthService, private route: Router) {}
+     constructor(private authService: AuthService, private route: Router, private activeRoute: ActivatedRoute) {}
 
      ngOnInit() {
-       this.authService.welcome().subscribe(
-         (result) => {
-           this.welcome = result;
-         }
-       );
+       this.welcome = this.activeRoute.snapshot.data['message'];
      }
 
      logout(){
