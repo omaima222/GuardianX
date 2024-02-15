@@ -6,6 +6,7 @@ import {authGuard} from "./guards/auth.guard";
 import {ErrorComponent} from "./components/error/error.component";
 
 export const routes: Routes = [
+  {path:"", redirectTo:"welcome", pathMatch:"full"},
   {path:"register", component:RegisterComponent},
   {path:"authenticate", component:AuthenticateComponent},
   {path:"welcome", component:WelcomeComponent, canActivate:[authGuard]},

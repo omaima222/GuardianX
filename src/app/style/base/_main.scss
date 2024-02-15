@@ -16,3 +16,13 @@ body{
   color: $yellow;
   font-size: 2.5rem;
 }
+
+.signupButton{
+  color: $yellow;
+  text-decoration: none;
+  padding: 0.5rem;
+  border: solid 1px;
+  position: absolute;
+  top: 2.5%;
+  left: 90%;
+}
